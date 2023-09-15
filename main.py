@@ -22,7 +22,7 @@ print(f"\n\tEncontrada planilha principal {df_principal_em_path}\n")
 print(f"\n\tEncontradas planilhas de retirada em\n{glob_retiradas}\n")
 print(separators)
 
-df_principal = pd.read_excel(df_principal_em_path, sheet_name='Total Livros')
+df_principal = pd.read_excel(df_principal_em_path, sheet_name='Todos Livros')
 
 for retirada in glob_retiradas:
     if 'biblioSaida' in retirada:
@@ -49,6 +49,6 @@ for retirada in glob_retiradas:
 
 print(separators)
 df_principal.dropna(axis=0, inplace=True)
-df_principal.to_excel(df_principal_em_path, sheet_name='Total Livros')
+df_principal.to_excel(df_principal_em_path, sheet_name='Todos Livros')
 print(f"\n- Arquivo {df_principal_em_path} atualizado\n")
 print(separators)
