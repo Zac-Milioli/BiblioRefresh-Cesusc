@@ -1,4 +1,5 @@
 
 principal/*.xlsx
 retiradas/*.xlsx
+retiradas/*.xls
 *pycache*

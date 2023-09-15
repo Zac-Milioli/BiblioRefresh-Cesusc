@@ -22,10 +22,14 @@ df_principal = pd.read_excel(df_principal_em_path, engine='openpyxl')
 for retirada in glob_retiradas:
     remover = pd.read_excel(retirada, engine='openpyxl')
     print(separators)
-    print(f"\n- Leu {retirada}\n")
-    for tombo in remover['Tombo']:
-        print(f"\n- Verificando existência de {tombo} na planilha principal\n")
-        df_principal.loc[df_principal['Tombo'] == tombo] = np.nan
+    print(f"\n\tLeu {retirada}\n")
+    if 'Tombo' in remover.columns:
+        print("\n\tEste dataframe possui tombos, verificando cada um...")
+        for tombo in remover['Tombo']:
+            print(f"\n- Verificando existência de {tombo} na planilha principal\n", end='\r')
+            df_principal.loc[df_principal['Tombo'] == tombo] = np.nan
+    else:
+        print(f'\n\tA planilha {retirada} não possui tombos, será ignorada')
 
 print(separators)
 df_principal.dropna(axis=0, inplace=True)
