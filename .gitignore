@@ -1,5 +1,5 @@
 
 principal/*.xlsx
-retiradas/*.xlsx
-retiradas/*.xls
+retiradas/*.xl*
+output/*.xlsx
 *pycache*
