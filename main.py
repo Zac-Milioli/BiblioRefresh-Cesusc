@@ -11,10 +11,14 @@ import numpy as np
 
 separators = '- '*30
 path_principal = 'principal/*.xlsx'
-path_retiradas = 'retiradas/*.xlsx'
+path_retiradas = 'retiradas/*.xl*'
 
 df_principal_em_path = glob(path_principal)[0]
 glob_retiradas = glob(path_retiradas)
+
+print(separators)
+print(f"\n\tEncontrada planilha principal {df_principal_em_path}\n")
+print(f"\n\tEncontradas planilhas de retirada em\n{glob_retiradas}\n")
 
 df_principal = pd.read_excel(df_principal_em_path)
 
@@ -26,7 +30,7 @@ for retirada in glob_retiradas:
         print("\n\tEste dataframe possui tombos, verificando cada um...\n")
         for tombo in remover['Tombo']:
             if tombo != np.nan:
-                print(f"- Verificando existência de {tombo} na planilha principal", end='\r')
+                print(f"- Verificando existência de {tombo}\tna planilha principal", end='\r')
                 df_principal.loc[df_principal['Tombo'] == tombo] = np.nan
     else:
         print(f'\n\tA planilha {retirada} não possui tombos, será ignorada')
