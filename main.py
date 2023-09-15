@@ -23,10 +23,11 @@ for retirada in glob_retiradas:
     print(separators)
     print(f"\n\tLeu {retirada}\n")
     if 'Tombo' in remover.columns:
-        print("\n\tEste dataframe possui tombos, verificando cada um...")
+        print("\n\tEste dataframe possui tombos, verificando cada um...\n")
         for tombo in remover['Tombo']:
-            print(f"\n- Verificando existência de {tombo} na planilha principal\n", end='\r')
-            df_principal.loc[df_principal['Tombo'] == tombo] = np.nan
+            if tombo != np.nan:
+                print(f"- Verificando existência de {tombo} na planilha principal", end='\r')
+                df_principal.loc[df_principal['Tombo'] == tombo] = np.nan
     else:
         print(f'\n\tA planilha {retirada} não possui tombos, será ignorada')
 
