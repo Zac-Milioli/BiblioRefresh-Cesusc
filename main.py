@@ -9,8 +9,9 @@
 from glob import glob
 import pandas as pd
 import numpy as np
+from datetime import datetime
 
-separators = '- '*30
+separators = '- '*50
 path_principal = 'principal/*.xlsx'
 path_retiradas = 'retiradas/*.xl*'
 
@@ -26,29 +27,20 @@ df_principal = pd.read_excel(df_principal_em_path, sheet_name='Todos Livros')
 
 for retirada in glob_retiradas:
     if 'biblioSaida' in retirada:
-        remover = pd.read_excel(retirada, sheet_name='Total Doados')
         print(separators)
-        print(f"\n\tLeu {retirada}\n")
-        for tombo in remover['Tombo']:
-            if tombo != np.nan:
-                print(f"- Verificando existência de \t{tombo}\tna planilha principal", end='\r')
-                df_principal.loc[df_principal['Tombo'] == tombo] = np.nan
+        print("\n\tEncontrou arquivo biblioSaida, ignorando...\n")
     else:
         remover = pd.read_excel(retirada)
+        remover.dropna(inplace=True)
         print(separators)
         print(f"\n\tLeu {retirada}\n")
         if 'Tombo' in remover.columns:
-            print("\n\tEste dataframe possui tombos, verificando cada um...\n")
-            for tombo in remover['Tombo']:
-                if tombo != np.nan:
-                    print(f"- Verificando existência de \t{tombo}\tna planilha principal", end='\r')
-                    df_principal.loc[df_principal['Tombo'] == tombo] = np.nan
+            print("\n\tEsta planilha possui tombos\n")
+            df_principal = df_principal[~df_principal['Tombo'].isin(remover['Tombo'])]
         else:
-            print(f'\n\tA planilha {retirada} não possui tombos, será ignorada')
-            print(separators)
+            print(f'\n\tEsta planilha não possui tombos, será ignorada\n')
 
 print(separators)
-df_principal.dropna(axis=0, inplace=True)
-df_principal.to_excel(df_principal_em_path, sheet_name='Todos Livros')
-print(f"\n- Arquivo {df_principal_em_path} atualizado\n")
+df_principal.to_excel(f'output/biblio_{datetime.now().strftime("%d%m%Y")}.xlsx', sheet_name='Todos Livros')
+print(f"\n- Planilha atualizada\n")
 print(separators)
