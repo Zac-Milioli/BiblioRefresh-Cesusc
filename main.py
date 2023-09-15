@@ -4,7 +4,6 @@
 # import os
 # os.system('pip install pandas')
 # os.system('pip install numpy')
-# os.system('pip install openpyxl')
 
 from glob import glob
 import pandas as pd
@@ -17,10 +16,10 @@ path_retiradas = 'retiradas/*.xlsx'
 df_principal_em_path = glob(path_principal)[0]
 glob_retiradas = glob(path_retiradas)
 
-df_principal = pd.read_excel(df_principal_em_path, engine='openpyxl')
+df_principal = pd.read_excel(df_principal_em_path)
 
 for retirada in glob_retiradas:
-    remover = pd.read_excel(retirada, engine='openpyxl')
+    remover = pd.read_excel(retirada)
     print(separators)
     print(f"\n\tLeu {retirada}\n")
     if 'Tombo' in remover.columns:
