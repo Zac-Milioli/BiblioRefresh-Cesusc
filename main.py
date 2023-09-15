@@ -10,7 +10,7 @@ from glob import glob
 import pandas as pd
 import numpy as np
 
-
+separators = '- '*30
 path_principal = 'principal/*.xlsx'
 path_retiradas = 'retiradas/*.xlsx'
 
@@ -21,8 +21,14 @@ df_principal = pd.read_excel(df_principal_em_path, engine='openpyxl')
 
 for retirada in glob_retiradas:
     remover = pd.read_excel(retirada, engine='openpyxl')
+    print(separators)
+    print(f"\n- Leu {retirada}\n")
     for tombo in remover['Tombo']:
+        print(f"\n- Verificando existência de {tombo} na planilha principal\n")
         df_principal.loc[df_principal['Tombo'] == tombo] = np.nan
 
+print(separators)
 df_principal.dropna(axis=0, inplace=True)
 df_principal.to_excel(df_principal_em_path, na_rep='')
+print(f"\n- Arquivo {df_principal_em_path} atualizado\n")
+print(separators)
